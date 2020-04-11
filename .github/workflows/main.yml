@@ -1,0 +1,25 @@
+name: CODE SNAP CI
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Generate pngs
+      uses: sharadcodes/code-snap-action@v1.0
+      with:
+        source_folder: "codercode" # This field is required and it is the folder which contains the source files.
+        output_folder: "png_img" # This field is required and it is the folder which contains the snaps.
+        syntax_theme: "emacs" # This field is required and it is the syntax highlighting theme that will be used.
+    - name: Add & Commit files
+      run: |
+        git config --local user.email "akm0786@github.com"
+        git config --local user.name "akm0786"
+        git add .
+        git commit -m "Add changes"
+        git push -f -q https://${{ secrets.GITHUB_TOKEN }}@github.com/akm0786/codercodes.git master
+
+   
